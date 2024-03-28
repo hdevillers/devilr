@@ -181,7 +181,7 @@ my_rainbow <- function(n, alpha = 1) {
   crp <- grDevices::colorRampPalette(c(
     my.red, my.orange, my.yellow,
     my.green, my.tealblue, my.blue,
-    my.purple, my.pink
+    my.purple
   ))
   cols <- crp(n)
   if( alpha != 1 ) {
