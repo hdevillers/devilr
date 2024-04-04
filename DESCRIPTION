@@ -1,12 +1,13 @@
 Package: devilr
-Title: devilr Packages
-Version: 0.0.0.9000
+Title: Collection of functions and utilities for divers data analyses 
+Version: 0.1.0
 Authors@R: 
     person("Hugo", "Devillers", , "hugo.devillers@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+           comment = c(ORCID = "0000-0002-8926-535X"))
 Description: Collection of function to treat and plot various data.
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 Imports: graphics, grDevices, methods, stats
 License: MIT + file LICENSE
+URL: https://github.com/hdevillers/devilr
