@@ -1,1 +1,15 @@
+# R files
+.Rhistory
+.Rapp.history
+.RData
+.RdataTmp
+.Ruserdata
+*-Ex.R
 .Rproj.user
+.Renviron
+devilr.Rproj
+
+# Src
+*.so
+*.o
+*.dll

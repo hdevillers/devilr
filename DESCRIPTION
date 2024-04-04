@@ -1,5 +1,5 @@
-Package: rtools
-Title: Rtools Packages
+Package: devilr
+Title: devilr Packages
 Version: 0.0.0.9000
 Authors@R: 
     person("Hugo", "Devillers", , "hugo.devillers@gmail.com", role = c("aut", "cre"),

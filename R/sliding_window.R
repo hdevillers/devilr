@@ -6,7 +6,7 @@
 #'
 #' @return a vector of values
 #' @export
-#' @useDynLib rtools, .registration=TRUE
+#' @useDynLib devilr, .registration=TRUE
 #'
 #' @examples
 #' # On a random vector
