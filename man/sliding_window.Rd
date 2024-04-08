@@ -4,23 +4,55 @@
 \alias{sliding_window}
 \title{Sliding window function}
 \usage{
-sliding_window(x, sw_len, sw_steps)
+sliding_window(
+  x = NULL,
+  sw.length,
+  sw.step,
+  keep.last = TRUE,
+  mode = "mean",
+  na.act = "mean",
+  only.values = FALSE,
+  index.adj = 0.5
+)
 }
 \arguments{
 \item{x}{a vector of values}
 
-\item{sw_len}{length of the window}
+\item{sw.length}{length of the window}
 
-\item{sw_steps}{length of the steps between windows}
+\item{sw.step}{length of the steps between windows}
+
+\item{keep.last}{if length of \code{x} is not a multiple of \code{sw.step} then add a last frame with a conserved length but with a shorter step}
+
+\item{mode}{computation mode of the sliding window algorithm}
+
+\item{na.act}{how to treat \code{NA} values}
+
+\item{only.values}{if \code{TRUE} only the computed values are returned}
+
+\item{index.adj}{index adjustment}
 }
 \value{
-a vector of values
+an array or a vector of values
 }
 \description{
 Sliding window function
 }
 \examples{
-# On a random vector
-x <- rnorm(1010)
-x.sw <- sliding_window(x, 100, 50)
+# Create an noisy sine wave signal
+x <- seq(-7, 7, len = 20000)
+y <- 4 * sin(x) + rnorm(length(x), 0, 0.5)
+sw.mean <- sliding_window(y, 100, 50, mode = "mean")
+
+# Draw it
+plot(x, y, type="l")
+lines(x[sw.mean[,1]], sw.mean[,2], col = "red")
+
+# Add NAs and treat the data
+na.id <- sample(1:length(y), 100, replace = FALSE)
+y[na.id] <- NA
+sw.na <- sliding_window(y, 100, 50, mode = "mean", na.act = "median")
+
+# Try sum mode
+sw.sum <- sliding_window(y, 100, 50, mode = "sum", na.act = "median")
 }
