@@ -79,7 +79,7 @@ double median(double *data, int n)
   int i = n/2;
   if(nm == 0)
   {
-    return(0.5 * (data[i]+data[i+1]));
+    return(0.5 * (data[i-1]+data[i]));
   }
   else
   {
