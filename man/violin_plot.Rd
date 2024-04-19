@@ -8,6 +8,7 @@ violin_plot(
   x,
   y.lim = NULL,
   y.lab = "",
+  x.lab = NULL,
   mode = "both",
   cols = my_rainbow,
   add.pt = FALSE,
@@ -23,7 +24,9 @@ violin_plot(
 
 \item{y.lim}{y axis limits.}
 
-\item{y.lab}{y axis label.}
+\item{y.lab}{y axis labels.}
+
+\item{x.lab}{x axis labels}
 
 \item{mode}{plotting mode: only \code{left}, only \code{right} or \code{both}.}
 
