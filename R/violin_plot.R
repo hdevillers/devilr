@@ -4,7 +4,8 @@
 #'
 #' @param x a list of values or a data.frame.
 #' @param y.lim y axis limits.
-#' @param y.lab y axis label.
+#' @param y.lab y axis labels.
+#' @param x.lab x axis labels
 #' @param mode plotting mode: only `left`, only `right` or `both`.
 #' @param cols color generator or vector of colors.
 #' @param add.pt boolean, add points over distributions.
@@ -24,7 +25,7 @@
 #'   grp2 = rnorm(200, 1, 3)
 #' )
 #' violin_plot(dt)
-violin_plot <- function(x, y.lim = NULL, y.lab = "", mode = "both", cols=my_rainbow,
+violin_plot <- function(x, y.lim = NULL, y.lab = "", x.lab = NULL, mode = "both", cols=my_rainbow,
                         add.pt = FALSE, cex.pt = 0.8, add.cnt = FALSE, new.plot = TRUE,
                         spacer = 0.05, smooth.lvl = 1) {
   if( !is.list(x) ) {
@@ -45,7 +46,13 @@ violin_plot <- function(x, y.lim = NULL, y.lab = "", mode = "both", cols=my_rain
   }
   x.min <- min(x.at - x.delta)
   x.max <- max(x.at + x.delta)
-  x.lab <- names(x)
+  if(is.null(x.lab)) {
+    x.lab <- names(x)
+  } else {
+    if(length(x.lab) != n) {
+      stop("Inconsistent number of x labels.")
+    }
+  }
   if( is.null(x.lab) ) {
     x.lab <- paste(rep("X", n), 1:n, sep="")
   }
