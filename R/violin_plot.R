@@ -106,37 +106,52 @@ violin_plot <- function(x, y.lim = NULL, y.lab = "", x.lab = NULL, mode = "both"
 #'
 #' @noRd
 add_violin <- function(val, at, width, mode, add.pt, col.bg, col.bd, col.pt, cex.pt, smooth.lvl) {
-  den <- stats::density(val , from = min(val), to = max(val), na.rm = TRUE, adjust = smooth.lvl)
-  den.x <- den$y / max(den$y) * width
-  den.y <- den$x
-  den.n <- length(den.y)
-  ft.x <- NULL
-  vio.y <- NULL
-  vio.x <- NULL
-  app.x <- stats::approx(den$x, den.x, val)$y
-  if( mode == "both" ) {
-    vio.x <- c(at - den.x, rev(at + den.x))
-    vio.y <- c(den.y, rev(den.y))
-    ft.x <- cbind(at-app.x, at+app.x)
-    graphics::polygon(vio.x, vio.y, border = col.bd, col = col.bg)
-  } else if( mode == "left" ) {
-    vio.x <- c(at, at - den.x, at)
-    vio.y <- c(den.y[1], den.y, den.y[den.n])
-    ft.x <- cbind(at-app.x, rep(at, length(app.x)))
-    graphics::polygon(vio.x, vio.y, border = col.bg, col = col.bg)
-    graphics::lines(vio.x, vio.y, col = col.bd)
-  } else if (mode == "right" ) {
-    vio.x <- c(at, rev(at + den.x), at)
-    vio.y <- c(den.y[den.n], rev(den.y), den.y[1])
-    ft.x <- cbind(rep(at, length(app.x)), at+app.x)
-    graphics::polygon(vio.x, vio.y, border = col.bg, col = col.bg)
-    graphics::lines(vio.x, vio.y, col = col.bd)
+  # Treat the case that all values in val are identical
+  if( isTRUE(all.equal(min(val), max(val))) ) {
+    graphics::segments(
+      x0 = at - width,
+      y0 = val[1],
+      x1 = at + width,
+      y1 = val[1],
+      lwd=2,
+      col = col.bd
+    )
+    if(add.pt) {
+      graphics::points(stats::runif(length(val), min = at-width, max = at+width), val, col = col.pt, cex = cex.pt)
+    }
   } else {
-    stop(paste("Unsupported plot mode (", mode, ").", sep=""))
-  }
+    den <- stats::density(val , from = min(val), to = max(val), na.rm = TRUE, adjust = smooth.lvl)
+    den.x <- den$y / max(den$y) * width
+    den.y <- den$x
+    den.n <- length(den.y)
+    ft.x <- NULL
+    vio.y <- NULL
+    vio.x <- NULL
+    app.x <- stats::approx(den$x, den.x, val)$y
+    if( mode == "both" ) {
+      vio.x <- c(at - den.x, rev(at + den.x))
+      vio.y <- c(den.y, rev(den.y))
+      ft.x <- cbind(at-app.x, at+app.x)
+      graphics::polygon(vio.x, vio.y, border = col.bd, col = col.bg)
+    } else if( mode == "left" ) {
+      vio.x <- c(at, at - den.x, at)
+      vio.y <- c(den.y[1], den.y, den.y[den.n])
+      ft.x <- cbind(at-app.x, rep(at, length(app.x)))
+      graphics::polygon(vio.x, vio.y, border = col.bg, col = col.bg)
+      graphics::lines(vio.x, vio.y, col = col.bd)
+    } else if (mode == "right" ) {
+      vio.x <- c(at, rev(at + den.x), at)
+      vio.y <- c(den.y[den.n], rev(den.y), den.y[1])
+      ft.x <- cbind(rep(at, length(app.x)), at+app.x)
+      graphics::polygon(vio.x, vio.y, border = col.bg, col = col.bg)
+      graphics::lines(vio.x, vio.y, col = col.bd)
+    } else {
+      stop(paste("Unsupported plot mode (", mode, ").", sep=""))
+    }
 
-  if( add.pt ) {
-    x.pt <- apply(ft.x, 1, function(x) return(stats::runif(1, x[1], x[2])))
-    graphics::points(x.pt, val, pch = 19, col = col.pt, cex = cex.pt)
+    if( add.pt ) {
+      x.pt <- apply(ft.x, 1, function(x) return(stats::runif(1, x[1], x[2])))
+      graphics::points(x.pt, val, pch = 19, col = col.pt, cex = cex.pt)
+    }
   }
 }
